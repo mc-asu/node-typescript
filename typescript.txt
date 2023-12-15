@@ -1,0 +1,107 @@
+Core types:
+number, string, boolean, object, Array
+
+tsc --init to configure the configure the configure the config 
+as const buttonE = document.querySelector('button')! as HTMLButtonElement
+! ignores a nullable value line
+
+Implicit any is not okay:  function add(num1 , num2: number)
+Explicit any is okay:  function add(num1:any , num2: number)
+
+Union Types:
+Accomplished via '|' e.g.:
+function add(num1:number | string , num2: number | string) {if (typeof num1 === 'number' && typeof num2 === 'number') {
+        return num1 + num2;
+    }
+    else if (typeof num1 === 'string' && typeof num2 === 'string') {
+        return num1 + num2;
+    }
+    else {
+        // mixed types
+        return +num1 + +num2;
+    }
+}
+
+Objects Types
+
+// Defining an object type
+function printResult(resultObj) {
+    console.log(resultObj.val);
+}
+
+result was not defined so we defined the type
+printResult({val: result as number, timestamp: new Date()})
+
+
+Array Types
+
+const numResults: number[] = []
+const textResults: string[]  = []
+
+// result and stringResult are Union Types so we specify the results
+numResults.push(result as number)
+textResults.push(stringResult as string)
+
+Alias
+
+Useful when working with Unions
+type NumOrString = number | string
+
+add(num1:number | string , num2: number | string) 
+-> 
+add(num1:NumOrString , num2: NumOrString) 
+
+or 
+type Result = { val: number; timestamp: Date; }
+printResult( resultObj: { val: number; timestamp: Date; } )
+->
+printResult( resultObj: Result )
+
+Interface 
+
+interface ResultObj { 
+  val: number
+  timestamp: Date
+}
+can be used here too
+printResult( resultObj: { val: number; timestamp: Date; } )
+->
+printResult( resultObj: ResultObj )
+
+Interface or Alias
+
+Interfaces should generally be used when declaration merging is necessary,
+such as extending an existing library or authoring a new one. Additionally,
+if you prefer the object-oriented inheritance style, using the extends keyword
+with an interface is often more readable than using the intersection
+with type aliases.
+
+Can use Class or Constructors as types
+
+Generics
+
+A generic type simply is a type that interacts with another type,
+Array is a great example.
+
+Array: list of data, that's the core type,
+but it interacts with another type, the type of data inside of the array.
+Array is the outer type and all the elements are the inner type.
+
+e.g
+Shorthand notation: const numResults: number[] = [] 
+Generic type syntax: const numResults: Array<number>
+
+Why is a promise a generic type?
+Because it eventually resolves to a value,
+and the value it resolves to, that's the generic type for the promise.
+
+const mypromise = new Promise<string>((resolve, reject) => {
+  setTimeout(() => {
+    resolve('It worked')
+  }, 1000);
+})
+mypromise.then(result => {
+  console.log(result.split('w'))
+})
+
+For the array its the value that its stored in the array.
